@@ -1,0 +1,72 @@
+// NEW TEDD Tasks System
+scriptparsetree,scripts/zm/tedd_tasks/zm_tedd_tasks_core.gsc
+scriptparsetree,scripts/zm/tedd_tasks/zm_tedd_tasks_core.csc
+scriptparsetree,scripts/zm/tedd_tasks/zm_tedd_tasks_config.gsh
+scriptparsetree,scripts/zm/tedd_tasks/zm_tedd_tasks_machine.gsc
+scriptparsetree,scripts/zm/tedd_tasks/zm_tedd_tasks_challenges.gsc
+scriptparsetree,scripts/zm/tedd_tasks/zm_tedd_tasks_rewards.gsc
+scriptparsetree,scripts/zm/tedd_tasks/zm_tedd_tasks_utils.gsc
+
+// Challenge Machine Animation Tree
+rawfile,animtrees/zm_challenge_machine.atr
+
+// Challenge Machine Animations
+xanim,sat_zm_obelisk_tesla_tower_silver_fxanim_off_idle
+xanim,sat_zm_obelisk_tesla_tower_silver_fxanim_on_idle
+xanim,sat_zm_obelisk_tesla_tower_silver_fxanim_start
+xanim,sat_zm_obelisk_tesla_tower_silver_fxanim_stop
+xanim,sat_zm_obelisk_tesla_tower_silver_fxanim_talking
+
+// Challenge Machine FX
+fx,_OwensAssets/bo7/tedd_machine_marker/tedd_trial_marker
+
+// Horde Zombie Red Eye FX
+fx,zombie/fx_glow_eye_red
+
+// Reward Glow FX
+fx,zombie/fx_powerup_on_solo_zmb
+fx,zombie/fx_powerup_on_green_zmb
+
+// Reward Outline Material (duplicate_render system)
+material,mc/hud_outline_model_z_white
+
+// Physical Reward Models
+xmodel,wpn_t7_zmb_perk_bottle_world
+xmodel,p7_pouch_ammo_04
+xmodel,jup_zm_tube_essence_01
+xmodel,wpn_t7_grenade_frag_world
+
+// Trial Container Icons (for reward slots)
+image,i_mtl_ui_icon_trials_rare_loot_container
+image,i_mtl_ui_icon_trials_epic_loot_container
+image,i_mtl_ui_icon_trials_legendary_loot_container
+image,i_mtl_ui_icon_trials_ultra_loot_container
+
+// T.E.D.D. Task UI Images (Phase 1: Basic UI)
+image,i_mtl_teddd_task_ui_header
+image,i_mtl_teddd_task_ui_ex
+image,i_mtl_teddd_task_ui_check
+image,i_mtl_teddd_task_ui_boarder
+image,i_mtl_teddd_task_ui_circle
+image,i_mtl_tedd_task_common_ui_body
+image,i_mtl_tedd_task_rare_ui_body
+image,i_mtl_tedd_task_epic_ui_body
+image,i_mtl_tedd_task_legendary_ui_body
+image,i_mtl_tedd_task_ultra_ui_body
+image,i_mtl_tedd_tasks_progressbar_outer
+image,i_mtl_tedd_initial_spawn
+image,i_mtl_tedd_initial_spawn_background
+image,i_mtl_tedd_initial_spawn_border
+
+
+// Reward Menu Icons (Phase 1: Basic rewards only)
+image,i_mtl_ammo
+image,i_mtl_random_perk_icon
+image,i_mtl_points_essence
+image,i_mtl_image_3c5ed48bb26ab0fe
+image,i_mtl_hud_feedback_ammobox
+image,i_mtl_hud_icon_killstreak_nuke
+image,i_mtl_icon_attachment_p41_me_hammer_v0
+image,i_mtl_icon_skull_large
+image,i_mtl_ui_map_icon_poi_firesale
+image,i_mtl_ui_mp_br_ping_icon_cash

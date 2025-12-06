@@ -147,6 +147,64 @@ If you want more than 3 machine locations:
 
 ---
 
+## Installing with Custom HUD (Alternative Method)
+
+If you **already have a custom HUD** installed in your map, use the `YOUR_USERMAPS-CUSTOM HUD` folder instead:
+
+### Modified Installation Steps:
+
+1. **Copy files from `YOUR_USERMAPS-CUSTOM HUD`** instead of `YOUR_USERMAPS`
+   - This version excludes `hud_t7.zpkg` to avoid conflicts
+
+2. **DO NOT add to your zone file:**
+   ```
+   include,hud_t7  // ❌ Skip this line - you already have a custom HUD
+   ```
+
+3. **Modify your existing HUD's main .lua file** (usually `T7Hud_zm_YourMap.lua`):
+
+   **Add these require() statements** (after existing BubbleGum line):
+   ```lua
+   require("ui.uieditor.widgets.BubbleGumBuffs.BubbleGumPackInGame")
+   
+   -- TEDD Tasks Widgets
+   require("ui.uieditor.widgets.HUD.ChallengeWidget.ChallengeProgress")
+   require("ui.uieditor.widgets.HUD.ChallengeWidget.ChallengeComplete")
+   require("ui.uieditor.widgets.HUD.ChallengeWidget.ChallengeFailed")
+   require("ui.uieditor.widgets.HUD.ChallengeWidget.MachineSpawnNotification")
+   ```
+
+   **Add widget initialization** (in the `PostLoadFunc` section, after creating other widgets):
+   ```lua
+   -- Add TEDD Tasks widgets to HUD
+   self.ChallengeProgress = CoD.ChallengeProgress.new(menu, controller)
+   self:addElement(self.ChallengeProgress)
+   
+   self.ChallengeComplete = CoD.ChallengeComplete.new(menu, controller)
+   self:addElement(self.ChallengeComplete)
+   
+   self.ChallengeFailed = CoD.ChallengeFailed.new(menu, controller)
+   self:addElement(self.ChallengeFailed)
+   
+   self.MachineSpawnNotification = CoD.MachineSpawnNotification.new(menu, controller)
+   self:addElement(self.MachineSpawnNotification)
+   ```
+
+   **Add cleanup** (near the bottom, after BubbleGum cleanup):
+   ```lua
+   element.BubbleGumPackInGame:close()
+   
+   -- TEDD Tasks cleanup
+   element.ChallengeProgress:close()
+   element.ChallengeComplete:close()
+   element.ChallengeFailed:close()
+   element.MachineSpawnNotification:close()
+   ```
+
+4. **Continue with Step 2 and Step 3** from the main installation guide above
+
+---
+
 ## Configuration
 
 Edit `scripts/zm/tedd_tasks/zm_tedd_tasks_config.gsh` to customize:
