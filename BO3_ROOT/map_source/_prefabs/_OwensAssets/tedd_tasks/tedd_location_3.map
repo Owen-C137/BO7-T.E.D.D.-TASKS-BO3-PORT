@@ -1,0 +1,106 @@
+iwmap 4
+// entity 0
+{
+guid "{8698E77D-D2DA-11F0-9F1B-8BB6DA38AA09}"
+"classname" "worldspawn"
+"lutmaterial" "luts_t7_default"
+}
+// entity 1
+// entity 2
+// entity 3
+// entity 4
+// entity 5
+// entity 6
+// entity 7
+// entity 8
+// entity 9
+// entity 10
+// entity 11
+// entity 12
+// entity 13
+// entity 14
+// entity 15
+// entity 16
+// entity 17
+// entity 18
+// entity 19
+// entity 20
+// entity 21
+// entity 22
+// entity 23
+// entity 24
+// entity 25
+// entity 26
+// entity 27
+// entity 28
+// entity 29
+// entity 30
+// entity 31
+// entity 32
+// entity 33
+// entity 34
+// entity 35
+// entity 36
+// entity 37
+// entity 38
+// entity 39
+// entity 40
+// entity 41
+// entity 42
+// entity 43
+// entity 44
+// entity 45
+// entity 46
+// entity 47
+// entity 48
+// entity 49
+// entity 50
+// entity 51
+// entity 52
+// entity 53
+// entity 54
+// entity 55
+// entity 56
+// entity 57
+// entity 58
+// entity 59
+{
+guid "{07F40A42-CCDB-11F0-9F14-90DA5F64F566}"
+"classname" "misc_prefab"
+"angles" "0 270 0"
+"model" "_prefabs/_OwensAssets/bo7/tedd_tasks/challenge_machine.map"
+"script_int" "2"
+"targetname" "challenge_machine_spawn_2"
+}
+// entity 60
+{
+guid "{2B751C21-CE02-11F0-9F15-E854C3827A1D}"
+"classname" "trigger_multiple"
+"script_int" "2"
+"targetname" "challenge_zone_2"
+// brush 0
+{
+ guid "{2B751C20-CE02-11F0-9F15-E854C3827A1D}"
+ ( 96 -88 0 ) ( 64 -88 0 ) ( 64 -120 0 ) trigger 64 64 -392 -432 0 0 lightmap_gray 16384 16384 -392 -432 0 0
+ ( 64 -120 128 ) ( 64 -88 128 ) ( 96 -88 128 ) trigger 64 64 -392 -432 0 0 lightmap_gray 16384 16384 -392 -432 0 0
+ ( 64 -120 16 ) ( 96 -120 16 ) ( 96 -120 0 ) trigger 64 64 -392 0 0 0 lightmap_gray 16384 16384 -392 0 0 0
+ ( 80 -120 16 ) ( 80 -88 16 ) ( 80 -88 0 ) trigger 64 64 432 0 0 0 lightmap_gray 16384 16384 432 0 0 0
+ ( 112 120 16 ) ( 80 120 16 ) ( 80 120 0 ) trigger 64 64 -376 0 0 0 lightmap_gray 16384 16384 -376 0 0 0
+ ( -80 -96 16 ) ( -80 -128 16 ) ( -80 -128 0 ) trigger 64 64 424 0 0 0 lightmap_gray 16384 16384 424 0 0 0
+}
+}
+// entity 61
+// entity 62
+// entity 63
+// entity 64
+// entity 65
+// entity 66
+// entity 67
+// entity 68
+// entity 69
+// entity 70
+// entity 71
+// entity 72
+// entity 73
+// entity 74
+// entity 75

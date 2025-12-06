@@ -1,0 +1,17 @@
+// MAIN HUD FILE
+rawfile,ui/uieditor/menus/HUD/hud_t7.lua
+
+// CHALLENGE WIDGETS
+rawfile,ui/uieditor/widgets/HUD/ChallengeWidget/ChallengeProgress.lua
+rawfile,ui/uieditor/widgets/HUD/ChallengeWidget/ChallengeComplete.lua
+rawfile,ui/uieditor/widgets/HUD/ChallengeWidget/ChallengeFailed.lua
+rawfile,ui/uieditor/widgets/HUD/ChallengeWidget/MachineSpawnNotification.lua
+
+// UTILS
+rawfile,ui/uieditor/widgets/hud/CKBB.lua
+rawfile,ui/utils/CoreUtil.lua
+rawfile,ui/utils/T7FontLoader.lua
+rawfile,ui/uieditor/widgets/hud/customperksfactory.luac
+
+// BASE IMAGES
+image,$blacktransparent

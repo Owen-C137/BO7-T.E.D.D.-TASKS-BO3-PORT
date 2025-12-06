@@ -1,0 +1,74 @@
+iwmap 4
+"script_startingnumber" 0
+"000_Global" flags  active
+"The Map" flags expanded 
+// entity 0
+{
+guid "{EDAD2F10-CD9A-11F0-9F14-90DA5F64F566}"
+"classname" "worldspawn"
+"fsi" "default"
+"gravity" "800"
+"lightingquality" "1024"
+"lodbias" "default"
+"lutmaterial" "3a_common"
+"numOmniShadowSlices" "24"
+"numSpotShadowSlices" "64"
+"samplescale" "1"
+"shadowslices" "96"
+"sky_intensity_factor0" "1"
+"sky_intensity_factor1" "1"
+"skyboxmodel" "skybox_default_day"
+"ssi" "default_day"
+"state_alias_1" "State 1"
+"state_alias_2" "State 2"
+"state_alias_3" "State 3"
+"state_alias_4" "State 4"
+"umbraSmallestHole" "16"
+"umbraSmallestOccluder" "96"
+"umbraTileSize" "2"
+"umbra_prime_depth" "1"
+"vbloom" "none"
+"vcolor" "none"
+"wsi" "default_day"
+}
+// entity 1
+{
+guid "{1EAEFC0D-CC8E-11F0-9F14-90DA5F64F566}"
+"classname" "script_model"
+"angles" "0 180 0"
+"model" "sat_zm_obelisk_tesla_tower_silver_fxanim"
+"script_string" "default"
+"targetname" "challenge_machine"
+"_color" "1 0 0"
+"client_server" "ServerSide"
+"lightingstate1" "1"
+"lightingstate2" "1"
+"lightingstate3" "1"
+"lightingstate4" "1"
+"modelscale" "1"
+"shadow_casting" "1"
+}
+// entity 2
+{
+guid "{672F2C8A-CCA6-11F0-9F14-90DA5F64F566}"
+"classname" "script_model"
+"angles" "0 180 0"
+"model" "t10_zm_crate_chest_world_01_med_green_fxanim"
+"targetname" "challenge_machine_reward"
+"_color" "1 0 0"
+"client_server" "ServerSide"
+"lightingstate1" "1"
+"lightingstate2" "1"
+"lightingstate3" "1"
+"lightingstate4" "1"
+"modelscale" "1"
+"shadow_casting" "1"
+}
+// entity 3
+{
+guid "{D2CFD44C-CCDB-11F0-9F14-90DA5F64F566}"
+"classname" "script_struct"
+"origin" "-64 0 16"
+"targetname" "challenge_machine_reward_loc"
+"_color" "1 0 0"
+}
