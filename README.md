@@ -27,7 +27,7 @@ A fully-featured port of the T.E.D.D. Tasks system from Call of Duty: Black Ops 
 
 ### UI System
 - **Real-Time Progress Tracking** - Live kill counter and timer on-screen
-- **Tier Visuals** - Color-coded UI (Green → Blue → Purple)
+- **Tier Visuals** - Color-coded UI (RARE(Blue) → EPIC(Purple) → LEGENDARY(Gold))
 - **Machine Spawn Notifications** - Alert when new machines appear
 - **Completion/Failure Overlays** - Clear feedback on challenge results
 - **Reward Display** - Shows which tier rewards you earned
