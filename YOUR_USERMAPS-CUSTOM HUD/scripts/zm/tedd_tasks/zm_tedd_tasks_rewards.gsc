@@ -391,6 +391,22 @@ function get_reward_model(reward)
             return "jup_zm_tube_essence_01";
         case REWARD_TYPE_EQUIPMENT:
             return EQUIPMENT_MODEL;
+        case REWARD_TYPE_WEAPON:
+            // Use weapon's world model if available
+            if(IsDefined(reward.weapon_name))
+            {
+                weapon = GetWeapon(reward.weapon_name);
+                return weapon.worldmodel;
+            }
+            return "wpn_t7_ar_standard_world"; // Fallback
+        case REWARD_TYPE_WONDER_WEAPON:
+            // Use wonder weapon's world model
+            if(IsDefined(reward.weapon_name))
+            {
+                weapon = GetWeapon(reward.weapon_name);
+                return weapon.worldmodel;
+            }
+            return "wpn_t7_lmg_rpk_world"; // Fallback
         case REWARD_TYPE_POWERUP:
             // For powerups, we'll spawn the actual powerup drop
             return "script_model"; // Placeholder, will use zm_powerups system
@@ -1117,9 +1133,153 @@ function create_weapon_reward(tier)
 {
     reward = SpawnStruct();
     reward.type = REWARD_TYPE_WEAPON;
-    // TODO: Implement weapon selection logic
-    reward.weapon_name = "none"; // Placeholder
+    
+    // Get all registered weapons from the map
+    weapon_keys = GetArrayKeys(level.zombie_weapons);
+    
+    if(!IsDefined(weapon_keys) || weapon_keys.size == 0)
+    {
+        IPrintLnBold("^1ERROR: No weapons registered in level.zombie_weapons!");
+        reward.weapon_name = "pistol_standard";
+        reward.is_upgraded = false;
+        return reward;
+    }
+    
+    // Filter weapons based on tier (exclude wonder weapons, limit items, melee, etc.)
+    valid_weapons = [];
+    
+    foreach(weapon in weapon_keys)
+    {
+        weapon_name = weapon.name;
+        
+        // Skip wonder weapons, limited items, and special weapons
+        if(is_wonder_weapon(weapon) || 
+           is_limited_weapon(weapon) || 
+           is_melee_weapon(weapon) ||
+           is_hero_weapon(weapon))
+        {
+            continue;
+        }
+        
+        // Tier-based filtering
+        switch(tier)
+        {
+            case CHALLENGE_TIER_RARE:
+                // Any weapon (wall guns + basic box weapons)
+                valid_weapons[valid_weapons.size] = weapon;
+                break;
+                
+            case CHALLENGE_TIER_EPIC:
+                // All non-wonder weapons
+                valid_weapons[valid_weapons.size] = weapon;
+                break;
+                
+            case CHALLENGE_TIER_LEGENDARY:
+                // All non-wonder weapons (will be upgraded)
+                valid_weapons[valid_weapons.size] = weapon;
+                break;
+        }
+    }
+    
+    // Fallback if no valid weapons found
+    if(valid_weapons.size == 0)
+    {
+        IPrintLnBold("^3WARNING: No valid weapons found for tier " + tier + ", using fallback");
+        valid_weapons = weapon_keys; // Use all weapons as fallback
+    }
+    
+    // Pick random weapon
+    selected_weapon = array::random(valid_weapons);
+    reward.weapon_name = selected_weapon.name;
+    
+    // Legendary tier gets Pack-a-Punch upgrade
+    reward.is_upgraded = (tier == CHALLENGE_TIER_LEGENDARY);
+    
     return reward;
+}
+
+// Helper function to check if weapon is a wonder weapon
+function is_wonder_weapon(weapon)
+{
+    weapon_name = weapon.name;
+    
+    // Common wonder weapon names
+    if(IsSubStr(weapon_name, "ray_gun") ||
+       IsSubStr(weapon_name, "thundergun") ||
+       IsSubStr(weapon_name, "shrink_ray") ||
+       IsSubStr(weapon_name, "microwavegun") ||
+       IsSubStr(weapon_name, "staff") ||
+       IsSubStr(weapon_name, "riotshield") ||
+       IsSubStr(weapon_name, "tesla_gun") ||
+       IsSubStr(weapon_name, "hero_"))
+    {
+        return true;
+    }
+    
+    // Check weapon struct flags
+    if(IsDefined(level.zombie_weapons[weapon]))
+    {
+        weapon_data = level.zombie_weapons[weapon];
+        if(IsDefined(weapon_data.is_wonder_weapon) && weapon_data.is_wonder_weapon)
+        {
+            return true;
+        }
+    }
+    
+    return false;
+}
+
+// Helper function to check if weapon is limited (like special equipment)
+function is_limited_weapon(weapon)
+{
+    weapon_name = weapon.name;
+    
+    if(IsSubStr(weapon_name, "limited") ||
+       IsSubStr(weapon_name, "equip_") ||
+       IsSubStr(weapon_name, "gadget_"))
+    {
+        return true;
+    }
+    
+    // Check weapon struct flags
+    if(IsDefined(level.zombie_weapons[weapon]))
+    {
+        weapon_data = level.zombie_weapons[weapon];
+        if(IsDefined(weapon_data.is_limited) && weapon_data.is_limited)
+        {
+            return true;
+        }
+    }
+    
+    return false;
+}
+
+// Helper function to check if weapon is melee
+function is_melee_weapon(weapon)
+{
+    weapon_name = weapon.name;
+    
+    if(IsSubStr(weapon_name, "knife") ||
+       IsSubStr(weapon_name, "melee") ||
+       IsSubStr(weapon_name, "bowie"))
+    {
+        return true;
+    }
+    
+    return false;
+}
+
+// Helper function to check if weapon is hero weapon
+function is_hero_weapon(weapon)
+{
+    weapon_name = weapon.name;
+    
+    if(IsSubStr(weapon_name, "hero_"))
+    {
+        return true;
+    }
+    
+    return false;
 }
 
 function create_wonder_weapon_reward(tier)
@@ -1160,6 +1320,28 @@ function give_reward(reward)
             IPrintLnBold("^3[DEBUG] Spawning powerup: " + reward.powerup_name);
             level thread zm_powerups::specific_powerup_drop(reward.powerup_name, self.origin);
             self IPrintLnBold("^2Powerup spawned!");
+            break;
+        case REWARD_TYPE_WEAPON:
+            IPrintLnBold("^3[DEBUG] Giving weapon: " + reward.weapon_name + " (upgraded: " + (IsDefined(reward.is_upgraded) && reward.is_upgraded) + ")");
+            weapon = GetWeapon(reward.weapon_name);
+            
+            // Give upgraded version if Legendary tier
+            if(IsDefined(reward.is_upgraded) && reward.is_upgraded)
+            {
+                upgraded_weapon = weapon;
+                if(IsDefined(level.zombie_weapons_upgraded) && IsDefined(level.zombie_weapons_upgraded[weapon]))
+                {
+                    upgraded_weapon = level.zombie_weapons_upgraded[weapon];
+                    IPrintLnBold("^3[DEBUG] Using upgraded weapon: " + upgraded_weapon.name);
+                }
+                self zm_weapons::weapon_give(upgraded_weapon, true, false, true);
+                self IPrintLnBold("^5Legendary Weapon Acquired (Pack-a-Punched)!");
+            }
+            else
+            {
+                self zm_weapons::weapon_give(weapon, false, false, true);
+                self IPrintLnBold("^2Weapon Acquired!");
+            }
             break;
         case REWARD_TYPE_WONDER_WEAPON:
             IPrintLnBold("^3[DEBUG] Giving wonder weapon: " + reward.weapon_name);

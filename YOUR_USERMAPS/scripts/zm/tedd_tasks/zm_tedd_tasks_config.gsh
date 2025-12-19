@@ -284,9 +284,12 @@
 #define EQUIPMENT_SEMTEX                    "sticky_grenade"
 #define EQUIPMENT_MODEL                     "wpn_t7_grenade_frag_world"
 
-// Enable/Disable weapon rewards (set to false until implemented)
-#define REWARD_ENABLE_WEAPONS               false
-#define REWARD_ENABLE_WONDER_WEAPONS        false
+// Enable/Disable weapon rewards
+#define REWARD_ENABLE_WEAPONS               true   // Normal weapons enabled!
+#define REWARD_ENABLE_WONDER_WEAPONS        false  // Wonder weapons still need map-specific config
 
-// Weapon reward gives: Random wall weapon OR box weapon (packed if Legendary)
+// Weapon reward gives: Random weapon from level.zombie_weapons pool
+// Rare: Any available weapon (wall guns preferred)
+// Epic: Box weapons + wall guns (higher quality)
+// Legendary: Best weapons + Pack-a-Punch upgrade
 // Wonder weapon reward gives: Map's wonder weapon (Ray Gun, Thunder Gun, etc.)

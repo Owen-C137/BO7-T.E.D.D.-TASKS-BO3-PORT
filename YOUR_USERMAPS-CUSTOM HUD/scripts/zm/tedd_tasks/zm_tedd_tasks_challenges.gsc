@@ -286,6 +286,7 @@ function start_headshots_challenge()
     level.tedd_challenge_kills_current = 0;
     level.tedd_challenge_kills_required = zm_tedd_tasks_utils::get_scaled_requirement(CHALLENGE_TIER_RARE_HEADSHOTS, level.round_number);
     level.tedd_challenge_start_time = GetTime();
+    level.tedd_highest_tier_completed = -1; // Track highest tier reached (for partial completion rewards)
     
     // Set machine to activated state
     if(IsDefined(level.tedd_active_machine) && IsDefined(level.tedd_active_machine.model))
@@ -321,6 +322,7 @@ function start_melee_challenge()
     level.tedd_challenge_kills_current = 0;
     level.tedd_challenge_kills_required = zm_tedd_tasks_utils::get_scaled_requirement(CHALLENGE_TIER_RARE_MELEE, level.round_number);
     level.tedd_challenge_start_time = GetTime();
+    level.tedd_highest_tier_completed = -1; // Track highest tier reached (for partial completion rewards)
     
     // Set machine to activated state
     if(IsDefined(level.tedd_active_machine) && IsDefined(level.tedd_active_machine.model))
@@ -596,6 +598,37 @@ function get_tier_time_limit_progressive(tier)
 }
 
 //*****************************************************************************
+// CHALLENGE CLEANUP
+//*****************************************************************************
+
+function cleanup_challenge_state()
+{
+    // Reset ALL challenge-related level variables to prevent state leakage
+    level.tedd_challenge_active = false;
+    level.tedd_challenge_type = undefined;
+    level.tedd_challenge_tier = undefined;
+    level.tedd_challenge_kills_current = undefined;
+    level.tedd_challenge_kills_required = undefined;
+    level.tedd_challenge_start_time = undefined;
+    level.tedd_highest_tier_completed = undefined;
+    level.tedd_active_zone = undefined;
+    
+    // Clear player UI models
+    players = getplayers();
+    foreach(player in players)
+    {
+        player clientfield::set_player_uimodel("tedd_challenge_active", 0);
+        player clientfield::set_player_uimodel("tedd_challenge_type", 0);
+        player clientfield::set_player_uimodel("tedd_challenge_tier", 0);
+        player clientfield::set_player_uimodel("tedd_challenge_kills_current", 0);
+        player clientfield::set_player_uimodel("tedd_challenge_kills_required", 0);
+        player clientfield::set_player_uimodel("tedd_challenge_completed", 0);
+        player clientfield::set_player_uimodel("tedd_challenge_failed", 0);
+        player clientfield::set_player_uimodel("tedd_challenge_reward", 0);
+    }
+}
+
+//*****************************************************************************
 // CHALLENGE COMPLETION
 //*****************************************************************************
 
@@ -655,6 +688,9 @@ function complete_challenge()
     
     // Spawn reward crate with machine index after machine is gone
     level thread zm_tedd_tasks_rewards::spawn_reward_crate(machine_index);
+    
+    // Clean up all challenge state to prevent leakage into next challenge
+    level thread cleanup_challenge_state();
 }
 function timeout_challenge()
 {
@@ -724,6 +760,9 @@ function timeout_challenge()
         
         // Spawn reward crate with the tier they completed
         level thread zm_tedd_tasks_rewards::spawn_reward_crate(machine_index, reward_tier);
+        
+        // Clean up all challenge state to prevent leakage into next challenge
+        level thread cleanup_challenge_state();
     }
     else
     {
@@ -766,6 +805,9 @@ function timeout_challenge()
             // Start cooldown before machine returns to idle
             level thread zm_tedd_tasks_machine::machine_fail_cooldown();
         }
+        
+        // Clean up all challenge state to prevent leakage into next challenge
+        level thread cleanup_challenge_state();
     }
 }
 
