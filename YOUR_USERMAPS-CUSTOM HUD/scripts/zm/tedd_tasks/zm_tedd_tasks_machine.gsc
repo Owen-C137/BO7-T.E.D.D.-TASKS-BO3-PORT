@@ -95,16 +95,20 @@ function spawn_machine()
     zm_unitrigger::register_static_unitrigger(unitrigger_stub, &machine_trigger_think);
     
     // Find linked trigger volume (if exists) for location challenges
-    // Use script_int matching system (same as old system)
+    // Use TARGETNAME + classname check + script_int matching to avoid conflicts with other systems
     zone_trigger = undefined;
     if(IsDefined(selected_machine.script_int))
     {
         machine_id = selected_machine.script_int;
         
-        // Find trigger with matching script_int
-        all_triggers = GetEntArray("trigger_multiple", "classname");
+        // Find trigger with targetname "tedd_challenge_zone_triggers" AND matching script_int
+        // Additional classname check ensures we only get trigger_multiple entities
+        all_triggers = GetEntArray("tedd_challenge_zone_triggers", "targetname");
         foreach(trigger in all_triggers)
         {
+            if(IsDefined(trigger.classname) && trigger.classname != "trigger_multiple")
+                continue; // Skip if not a trigger_multiple
+                
             if(IsDefined(trigger.script_int) && trigger.script_int == machine_id)
             {
                 zone_trigger = trigger;

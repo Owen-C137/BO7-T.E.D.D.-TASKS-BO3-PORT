@@ -1,20 +1,14 @@
-// ====================================================================
+
 // TEDD Tasks System - Configuration
 // Staged Implementation: Phase 1 - Horde Challenge Only
-// ====================================================================
 
-// ====================================================================
 // CORE SYSTEM CONFIGURATION
-// ====================================================================
 
 #define CHALLENGE_COST                      0       // Cost to start a challenge (0 = free)
 #define CHALLENGE_COOLDOWN                  60      // Seconds before can start another challenge
 #define CHALLENGE_REQUIRES_POWER            false    // Require power to be on before machines spawn
 
-// ====================================================================
 // MACHINE CONFIGURATION
-// ====================================================================
-
 // Machine Model & Properties
 #define CHALLENGE_MACHINE_MODEL             "sat_zm_obelisk_tesla_tower_silver_fxanim"
 #define CHALLENGE_MACHINE_RADIUS            64      // Trigger radius
@@ -38,10 +32,7 @@
 #define CHALLENGE_DESPAWN_ON_FAIL           false   // Keep machine visible after failure
 #define CHALLENGE_FAIL_COOLDOWN             30      // Seconds before failed machine returns to idle (if DESPAWN_ON_FAIL = false)
 
-// ====================================================================
 // TIER SYSTEM
-// ====================================================================
-
 // Tier Definitions (3 Tiers + Ultra for special use)
 #define CHALLENGE_TIER_RARE                 0
 #define CHALLENGE_TIER_EPIC                 1
@@ -54,18 +45,11 @@
 #define CHALLENGE_TIER_LEGENDARY_REWARD     2500
 #define CHALLENGE_TIER_ULTRA_REWARD         5000    // Reserved for special rewards
 
-// ====================================================================
 // ROUND SCALING CONFIGURATION
-// ====================================================================
-
 #define CHALLENGE_ROUND_SCALING_ENABLED     true    // Enable/disable scaling
 #define CHALLENGE_ROUND_SCALING_FACTOR      0.10    // 10% increase per round
 #define CHALLENGE_ROUND_SCALING_MAX         2.5     // Cap at 250% of base
 #define CHALLENGE_ROUND_SCALING_START       1       // Start scaling from round 1
-
-// ====================================================================
-// CHALLENGE TYPES & TOGGLES
-// ====================================================================
 
 // Challenge Type Definitions
 #define CHALLENGE_TYPE_SURVIVE_HORDE        "survive_horde"
@@ -86,11 +70,11 @@
 
 // Challenge Enable/Disable Toggles
 #define CHALLENGE_ENABLE_SURVIVE_HORDE      false   // Phase 1: Horde challenge
-#define CHALLENGE_ENABLE_KILLS              true    // Phase 3: Basic kills challenge
+#define CHALLENGE_ENABLE_KILLS              false    // Phase 3: Basic kills challenge
 #define CHALLENGE_ENABLE_HEADSHOTS          false   // Phase 3: Headshot challenge
 #define CHALLENGE_ENABLE_MELEE              false   // Phase 3: Melee challenge
-#define CHALLENGE_ENABLE_KILL_IN_LOCATION   false   // Kill zombies inside zone
-#define CHALLENGE_ENABLE_SURVIVE_IN_LOCATION false  // Survive inside zone
+#define CHALLENGE_ENABLE_KILL_IN_LOCATION   true   // Kill zombies inside zone
+#define CHALLENGE_ENABLE_SURVIVE_IN_LOCATION true  // Survive inside zone
 #define CHALLENGE_ENABLE_KILL_ELEVATION_HIGH false  // Kill from above zombies
 #define CHALLENGE_ENABLE_KILL_ELEVATION_LOW  false  // Kill from below zombies
 #define CHALLENGE_ENABLE_STANDING_STILL      false  // Kill while not moving
@@ -101,10 +85,7 @@
 #define CHALLENGE_ENABLE_WEAPON_CLASS        false  // Kill with specific weapon class
 #define CHALLENGE_ENABLE_EQUIPMENT_KILLS     false  // Kill with equipment (grenades, betties, monkeys)
 
-// ====================================================================
 // HORDE CHALLENGE CONFIGURATION
-// ====================================================================
-
 // Time Limits per Tier (seconds) - How long to survive the horde
 #define CHALLENGE_TIER_RARE_TIME            60      // 1 minute survival (Rare)
 #define CHALLENGE_TIER_EPIC_TIME            90      // 1.5 minute survival (Epic)
@@ -123,54 +104,30 @@
 #define HORDE_SPEED_LEGENDARY               1.6     // 60% faster (Legendary)
 #define HORDE_SPEED_ULTRA                   1.8     // 80% faster (Ultra - special)
 
-// ====================================================================
-// PROGRESSIVE CHALLENGES - TIME LIMITS
-// ====================================================================
-
 // Progressive Challenge Time Limits (seconds) - Time to complete kill-based objectives
 #define CHALLENGE_PROGRESSIVE_RARE_TIME     40      // Time for Rare tier (kills/headshots/melee)
 #define CHALLENGE_PROGRESSIVE_EPIC_TIME     60      // Time for Epic tier
 #define CHALLENGE_PROGRESSIVE_LEGENDARY_TIME 80     // Time for Legendary tier
-
-// ====================================================================
-// KILLS CHALLENGE
-// ====================================================================
 
 // Kills Challenge Requirements (BASE - scales with round)
 #define CHALLENGE_TIER_RARE_KILLS           10
 #define CHALLENGE_TIER_EPIC_KILLS           20
 #define CHALLENGE_TIER_LEGENDARY_KILLS      30
 
-// ====================================================================
-// HEADSHOTS CHALLENGE
-// ====================================================================
-
 // Headshots Challenge Requirements (BASE - ~50% of kills, scales with round)
 #define CHALLENGE_TIER_RARE_HEADSHOTS       15
 #define CHALLENGE_TIER_EPIC_HEADSHOTS       25
 #define CHALLENGE_TIER_LEGENDARY_HEADSHOTS  40
-
-// ====================================================================
-// MELEE CHALLENGE
-// ====================================================================
 
 // Melee Challenge Requirements (BASE - ~40% of kills, scales with round)
 #define CHALLENGE_TIER_RARE_MELEE           5
 #define CHALLENGE_TIER_EPIC_MELEE           10
 #define CHALLENGE_TIER_LEGENDARY_MELEE      15
 
-// ====================================================================
-// KILL IN LOCATION CHALLENGE
-// ====================================================================
-
 // Kill in Location Challenge Requirements (BASE - scales with round)
 #define CHALLENGE_TIER_RARE_KILL_IN_LOCATION    8
 #define CHALLENGE_TIER_EPIC_KILL_IN_LOCATION    15
 #define CHALLENGE_TIER_LEGENDARY_KILL_IN_LOCATION 25
-
-// ====================================================================
-// SURVIVE IN LOCATION CHALLENGE
-// ====================================================================
 
 // Survive in Location Challenge Requirements (PER-TIER SECONDS - does NOT scale with round)
 // These are time required IN ZONE per tier (Rare 15s → Epic 25s → Legendary 40s)
@@ -183,19 +140,11 @@
 // Should be higher than total in-zone time (80s) to allow for leaving zone
 #define CHALLENGE_SURVIVE_IN_LOCATION_TIME_LIMIT   90
 
-// ====================================================================
-// KILL ELEVATION HIGH CHALLENGE
-// ====================================================================
-
 // Kill Elevation High Challenge Requirements (BASE - scales with round)
 // Player must be at least 64 units ABOVE zombie for kill to count
 #define CHALLENGE_TIER_RARE_KILL_ELEVATION_HIGH    8
 #define CHALLENGE_TIER_EPIC_KILL_ELEVATION_HIGH    15
 #define CHALLENGE_TIER_LEGENDARY_KILL_ELEVATION_HIGH 25
-
-// ====================================================================
-// KILL ELEVATION LOW CHALLENGE
-// ====================================================================
 
 // Kill Elevation Low Challenge Requirements (BASE - scales with round)
 // Player must be at least 64 units BELOW zombie for kill to count
@@ -203,19 +152,11 @@
 #define CHALLENGE_TIER_EPIC_KILL_ELEVATION_LOW     15
 #define CHALLENGE_TIER_LEGENDARY_KILL_ELEVATION_LOW 25
 
-// ====================================================================
-// STANDING STILL CHALLENGE
-// ====================================================================
-
 // Standing Still Challenge Requirements (BASE - scales with round)
 // Player must be stationary (movement < 0.1) when killing zombie
 #define CHALLENGE_TIER_RARE_STANDING_STILL         8
 #define CHALLENGE_TIER_EPIC_STANDING_STILL         15
 #define CHALLENGE_TIER_LEGENDARY_STANDING_STILL    25
-
-// ====================================================================
-// CROUCHING CHALLENGE
-// ====================================================================
 
 // Crouching Challenge Requirements (BASE - scales with round)
 // Player must be in crouch stance when killing zombie
@@ -223,19 +164,11 @@
 #define CHALLENGE_TIER_EPIC_CROUCHING              15
 #define CHALLENGE_TIER_LEGENDARY_CROUCHING         25
 
-// ====================================================================
-// SLIDING CHALLENGE
-// ====================================================================
-
 // Sliding Challenge Requirements (BASE - scales with round)
 // Player must be sliding when killing zombie
 #define CHALLENGE_TIER_RARE_SLIDING                8
 #define CHALLENGE_TIER_EPIC_SLIDING                15
 #define CHALLENGE_TIER_LEGENDARY_SLIDING           25
-
-// ====================================================================
-// JUMPING CHALLENGE
-// ====================================================================
 
 // Jumping Challenge Requirements (BASE - scales with round)
 // Player must be airborne (not on ground) when killing zombie
@@ -243,19 +176,11 @@
 #define CHALLENGE_TIER_EPIC_JUMPING                15
 #define CHALLENGE_TIER_LEGENDARY_JUMPING           25
 
-// ====================================================================
-// TRAP KILLS CHALLENGE
-// ====================================================================
-
 // Trap Kills Challenge Requirements (BASE - scales with round)
 // Kill zombies using the sawblade trap
 #define CHALLENGE_TIER_RARE_TRAP_KILLS             8
 #define CHALLENGE_TIER_EPIC_TRAP_KILLS             15
 #define CHALLENGE_TIER_LEGENDARY_TRAP_KILLS        25
-
-// ====================================================================
-// WEAPON CLASS CHALLENGE
-// ====================================================================
 
 // Weapon Class Challenge Requirements (BASE - scales with round)
 // Kill zombies with specific weapon class (random each activation)
@@ -263,23 +188,11 @@
 #define CHALLENGE_TIER_EPIC_WEAPON_CLASS           15
 #define CHALLENGE_TIER_LEGENDARY_WEAPON_CLASS      25
 
-// ====================================================================
-// EQUIPMENT KILLS CHALLENGE
-// ====================================================================
-
 // Equipment Kills Challenge Requirements (BASE - scales with round)
 // Kill zombies using equipment (grenades, betties, monkeys, arnies)
 #define CHALLENGE_TIER_RARE_EQUIPMENT_KILLS        6
 #define CHALLENGE_TIER_EPIC_EQUIPMENT_KILLS        10
 #define CHALLENGE_TIER_LEGENDARY_EQUIPMENT_KILLS   15
-
-// ====================================================================
-// REWARD SYSTEM CONFIGURATION
-// ====================================================================
-
-// ====================================================================
-// REWARD COUNTS PER TIER
-// ====================================================================
 
 // How many rewards each tier gives (randomized within range)
 #define REWARD_COUNT_RARE_MIN               2       // Rare: 2-3 rewards
@@ -289,10 +202,6 @@
 #define REWARD_COUNT_LEGENDARY_MIN          3       // Legendary: 3-4 rewards (higher quality)
 #define REWARD_COUNT_LEGENDARY_MAX          4
 
-// ====================================================================
-// REWARD TYPE DEFINITIONS
-// ====================================================================
-
 #define REWARD_TYPE_BONUS_POINTS            "bonus_points"
 #define REWARD_TYPE_PERK                    "perk"
 #define REWARD_TYPE_AMMO                    "ammo"
@@ -300,10 +209,6 @@
 #define REWARD_TYPE_EQUIPMENT               "equipment"
 #define REWARD_TYPE_WEAPON                  "weapon"         // Regular weapon reward
 #define REWARD_TYPE_WONDER_WEAPON           "wonder_weapon"  // Wonder weapon (ultra rare)
-
-// ====================================================================
-// REWARD WEIGHTS BY TIER (Higher = More Common)
-// ====================================================================
 
 // RARE TIER WEIGHTS (Basic/Common Rewards)
 #define WEIGHT_RARE_BONUS_POINTS            50      // Very common
@@ -332,10 +237,6 @@
 #define WEIGHT_LEGENDARY_WEAPON             7       // Uncommon
 #define WEIGHT_LEGENDARY_WONDER_WEAPON      3       // Rare
 
-// ====================================================================
-// GUARANTEED REWARDS PER TIER
-// ====================================================================
-
 // Rare: No guaranteed rewards (pure RNG from weighted pool)
 #define RARE_GUARANTEE_NONE                 true
 
@@ -346,20 +247,12 @@
 #define LEGENDARY_GUARANTEE_PERK            true
 #define LEGENDARY_GUARANTEE_POWERUP         true
 
-// ====================================================================
-// BONUS POINTS RANGES
-// ====================================================================
-
 #define POINTS_RARE_MIN                     500
 #define POINTS_RARE_MAX                     1000
 #define POINTS_EPIC_MIN                     1000
 #define POINTS_EPIC_MAX                     1500
 #define POINTS_LEGENDARY_MIN                1500
 #define POINTS_LEGENDARY_MAX                2500
-
-// ====================================================================
-// PERK QUALITY TIERS
-// ====================================================================
 
 // Common Perks (Rare tier if enabled, common in Epic/Legendary)
 #define PERK_COMMON_SPEED_COLA              "specialty_fastreload"
@@ -372,10 +265,6 @@
 #define PERK_PREMIUM_DOUBLE_TAP             "specialty_doubletap2"
 #define PERK_PREMIUM_WIDOWS_WINE            "specialty_widowswine"
 #define PERK_PREMIUM_MULE_KICK              "specialty_additionalprimaryweapon"
-
-// ====================================================================
-// POWERUP QUALITY TIERS
-// ====================================================================
 
 // Basic Powerups (Rare tier)
 #define POWERUP_BASIC_DOUBLE_POINTS         "double_points"
@@ -391,17 +280,9 @@
 #define POWERUP_PREMIUM_PERKAHOLIC          "perkaholic"      // If available in your map
 #define POWERUP_PREMIUM_SHOPPING_FREE       "shopping_free"   // If available in your map
 
-// ====================================================================
-// EQUIPMENT CONFIGURATION
-// ====================================================================
-
 #define EQUIPMENT_FRAG_GRENADE              "frag_grenade"
 #define EQUIPMENT_SEMTEX                    "sticky_grenade"
 #define EQUIPMENT_MODEL                     "wpn_t7_grenade_frag_world"
-
-// ====================================================================
-// WEAPON REWARDS (Future Implementation)
-// ====================================================================
 
 // Enable/Disable weapon rewards (set to false until implemented)
 #define REWARD_ENABLE_WEAPONS               false
