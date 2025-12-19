@@ -31,6 +31,8 @@
 #precache("xanim", "sat_zm_obelisk_tesla_tower_silver_fxanim_stop");
 #precache("xanim", "sat_zm_obelisk_tesla_tower_silver_fxanim_talking");
 #precache("fx", "_OwensAssets/bo7/tedd_machine_marker/tedd_trial_marker");
+#precache("fx", "zombie/fx_margwa_teleport_spawn_zod_zmb");
+#precache("fx", "zombie/fx_margwa_teleport_zod_zmb");
 #precache("fx", "zombie/fx_powerup_on_solo_zmb");
 #precache("fx", "zombie/fx_powerup_on_green_zmb");
 #precache("fx", "zombie/fx_ritual_barrier_defend_zod_zmb");
@@ -82,6 +84,8 @@ function __main__()
 {
     // Register FX
     level._effect["tedd_machine_marker"] = CHALLENGE_MACHINE_FX;
+    level._effect["tedd_machine_spawn"] = "zombie/fx_margwa_teleport_spawn_zod_zmb";
+    level._effect["tedd_machine_despawn"] = "zombie/fx_margwa_teleport_zod_zmb";
     level._effect["zone_barrier"] = "zombie/fx_ritual_barrier_defend_zod_zmb";
     level._effect["zone_marker"] = "zombie/fx_glow_eye_orange";
     
@@ -194,11 +198,12 @@ function watch_zombie_death()
         return;
     }
     
-    // CRITICAL: Check if this is a trap kill (marked_for_death flag)
+    // CRITICAL: Check if this is a trap kill (tedd_trap_kill flag)
     // Trap kills should ONLY count for CHALLENGE_TYPE_TRAP_KILLS challenges
-    if(IsDefined(self.marked_for_death) && self.marked_for_death)
+    // NOTE: Using tedd_trap_kill instead of marked_for_death to avoid false positives from Death Machine/powerups
+    if(IsDefined(self.tedd_trap_kill) && self.tedd_trap_kill)
     {
-        IPrintLnBold("^6[DEBUG] Zombie has marked_for_death flag - this is a TRAP KILL");
+        IPrintLnBold("^6[DEBUG] Zombie has tedd_trap_kill flag - this is a TRAP KILL");
         
         // This is a trap kill - only process if current challenge is TRAP_KILLS
         if(!IsDefined(level.tedd_challenge_type) || level.tedd_challenge_type != CHALLENGE_TYPE_TRAP_KILLS)
@@ -470,17 +475,18 @@ function watch_zombie_death()
         {
             attacker IPrintLnBold("^6[DEBUG] Reached TRAP_KILLS handler section");
             
-            // Trap kills: ONLY count kills with marked_for_death flag
+            // Trap kills: ONLY count kills with tedd_trap_kill flag
             // The exclusivity check above ensures this challenge is ONLY active when it's a trap_kills challenge
             // But we still need to verify the zombie actually has the flag (wasn't just a regular kill)
-            if(IsDefined(self.marked_for_death) && self.marked_for_death)
+            // NOTE: Using tedd_trap_kill instead of marked_for_death to avoid false positives from Death Machine
+            if(IsDefined(self.tedd_trap_kill) && self.tedd_trap_kill)
             {
-                attacker IPrintLnBold("^2[TRAP KILLS CHALLENGE] Zombie has marked_for_death - processing trap kill!");
+                attacker IPrintLnBold("^2[TRAP KILLS CHALLENGE] Zombie has tedd_trap_kill - processing trap kill!");
                 level thread zm_tedd_tasks_challenges::process_progressive_kill(is_headshot, is_melee);
             }
             else
             {
-                attacker IPrintLnBold("^1[TRAP KILLS CHALLENGE] Zombie DOES NOT have marked_for_death - skipping");
+                attacker IPrintLnBold("^1[TRAP KILLS CHALLENGE] Zombie DOES NOT have tedd_trap_kill - skipping");
             }
         }
         else

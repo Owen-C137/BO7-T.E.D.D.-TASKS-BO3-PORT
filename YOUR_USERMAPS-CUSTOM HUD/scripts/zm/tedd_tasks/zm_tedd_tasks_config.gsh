@@ -6,7 +6,7 @@
 
 #define CHALLENGE_COST                      0       // Cost to start a challenge (0 = free)
 #define CHALLENGE_COOLDOWN                  60      // Seconds before can start another challenge
-#define CHALLENGE_REQUIRES_POWER            true    // Require power to be on before machines spawn
+#define CHALLENGE_REQUIRES_POWER            false    // Require power to be on before machines spawn
 
 // MACHINE CONFIGURATION
 // Machine Model & Properties

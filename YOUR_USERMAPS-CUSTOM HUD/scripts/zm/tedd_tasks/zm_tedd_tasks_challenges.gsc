@@ -682,6 +682,9 @@ function complete_challenge()
     // Despawn machine if configured, THEN spawn reward crate
     if(CHALLENGE_DESPAWN_ON_COMPLETE)
     {
+        // Play despawn FX right before machine despawns
+        level thread zm_tedd_tasks_machine::play_despawn_fx();
+        wait(0.5); // Wait for FX to start
         zm_tedd_tasks_machine::despawn_machine();
         wait(0.5);  // Wait for machine to fully despawn
     }
@@ -785,10 +788,24 @@ function timeout_challenge()
             zm_tedd_tasks_machine::set_machine_state(level.tedd_active_machine.model, "failed");
             wait(1.0); // Wait for stop animation
             level.tedd_active_machine.model thread zm_tedd_tasks_machine::play_voice_line_with_anim("tedd_tasks_challenge_fail", 4.0, "off_idle");
+            
+            // Play despawn FX during fail voice line (if despawning on fail)
+            if(CHALLENGE_DESPAWN_ON_FAIL)
+            {
+                wait(1.5); // Wait partway through voice line
+                level thread zm_tedd_tasks_machine::play_despawn_fx();
+                wait(3.5); // 1.0 + 1.5 + 3.5 = 6.0 total (longer than voice)
+            }
+            else
+            {
+                wait(5.0); // Full voice line duration
+            }
         }
-        
-        // Wait for fail voice to finish before clearing UI
-        wait(5.0);
+        else if(!CHALLENGE_DESPAWN_ON_FAIL)
+        {
+            // Wait for fail voice to finish before clearing UI
+            wait(5.0);
+        }
         
         // Clear failed UI
         foreach(player in players)

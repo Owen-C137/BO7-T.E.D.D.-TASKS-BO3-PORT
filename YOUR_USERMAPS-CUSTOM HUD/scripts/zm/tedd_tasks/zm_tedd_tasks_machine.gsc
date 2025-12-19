@@ -61,8 +61,34 @@ function spawn_machine()
     // Store last index
     level.tedd_last_machine_index = selected_index;
     
-    // Show the model
+    IPrintLnBold("^3[FX DEBUG] About to spawn machine FX...");
+    
+    // Verify FX is registered
+    if(!IsDefined(level._effect["tedd_machine_spawn"]))
+    {
+        IPrintLnBold("^1[FX ERROR] tedd_machine_spawn FX not registered!");
+    }
+    else
+    {
+        IPrintLnBold("^2[FX DEBUG] tedd_machine_spawn = " + level._effect["tedd_machine_spawn"]);
+    }
+    
+    // Create spawn FX model and play spawn effect FIRST (before showing machine)
+    spawn_fx_model = Spawn("script_model", selected_machine.origin);
+    spawn_fx_model.angles = selected_machine.angles;
+    spawn_fx_model SetModel("tag_origin");
+    
+    IPrintLnBold("^3[FX DEBUG] Playing spawn FX at " + selected_machine.origin);
+    playfxontag(level._effect["tedd_machine_spawn"], spawn_fx_model, "tag_origin");
+    
+    // Wait for spawn FX to build up
+    wait(1.0);
+    
+    // Show the model (machine appears during FX)
     selected_machine Show();
+    
+    // Delete spawn FX model after effect completes
+    spawn_fx_model thread delete_after_time(2.0);
     
     // Set up animtree for animations
     selected_machine useanimtree(#animtree);
@@ -334,6 +360,38 @@ function play_activation_sequence()
 // MACHINE DESPAWN
 //*****************************************************************************
 
+function play_despawn_fx()
+{
+    if(!IsDefined(level.tedd_active_machine) || !IsDefined(level.tedd_active_machine.model))
+    {
+        IPrintLnBold("^1[FX ERROR] No active machine for despawn FX!");
+        return;
+    }
+    
+    IPrintLnBold("^3[FX DEBUG] About to play despawn FX...");
+    
+    // Verify FX is registered
+    if(!IsDefined(level._effect["tedd_machine_despawn"]))
+    {
+        IPrintLnBold("^1[FX ERROR] tedd_machine_despawn FX not registered!");
+    }
+    else
+    {
+        IPrintLnBold("^2[FX DEBUG] tedd_machine_despawn = " + level._effect["tedd_machine_despawn"]);
+    }
+    
+    // Create despawn FX model and play despawn effect (same pattern as marker FX)
+    despawn_fx_model = Spawn("script_model", level.tedd_active_machine.model.origin);
+    despawn_fx_model.angles = level.tedd_active_machine.model.angles;
+    despawn_fx_model SetModel("tag_origin");
+    
+    IPrintLnBold("^3[FX DEBUG] Playing despawn FX at " + level.tedd_active_machine.model.origin);
+    playfxontag(level._effect["tedd_machine_despawn"], despawn_fx_model, "tag_origin");
+    
+    // Delete despawn FX model after effect plays
+    despawn_fx_model thread delete_after_time(2.0);
+}
+
 function despawn_machine()
 {
     if(!IsDefined(level.tedd_active_machine))
@@ -584,5 +642,18 @@ function start_random_challenge()
         case "equipment_kills":
             level thread zm_tedd_tasks_challenges::start_equipment_kills_challenge();
             break;
+    }
+}
+
+//*****************************************************************************
+// HELPER FUNCTIONS
+//*****************************************************************************
+
+function delete_after_time(delay)
+{
+    wait(delay);
+    if(IsDefined(self))
+    {
+        self Delete();
     }
 }
