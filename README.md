@@ -311,6 +311,7 @@ Adjust probability of each reward type per tier:
 
 - **Treyarch:** Custom models, animations, FX, and sounds
 - **Activision:** Custom GSC implementation for BO3 (developed with assistance from generative AI)
+- **Shidouri:** Trigger Multiple Fix
 
 ## Development Note
 
