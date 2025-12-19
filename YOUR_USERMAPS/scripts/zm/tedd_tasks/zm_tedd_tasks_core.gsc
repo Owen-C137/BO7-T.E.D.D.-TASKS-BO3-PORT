@@ -7,6 +7,7 @@
 #using scripts\shared\array_shared;
 #using scripts\shared\callbacks_shared;
 #using scripts\shared\clientfield_shared;
+#using scripts\shared\exploder_shared;
 #using scripts\shared\flag_shared;
 #using scripts\shared\system_shared;
 #using scripts\shared\util_shared;
@@ -32,6 +33,8 @@
 #precache("fx", "_OwensAssets/bo7/tedd_machine_marker/tedd_trial_marker");
 #precache("fx", "zombie/fx_powerup_on_solo_zmb");
 #precache("fx", "zombie/fx_powerup_on_green_zmb");
+#precache("fx", "zombie/fx_ritual_barrier_defend_zod_zmb");
+#precache("fx", "zombie/fx_glow_eye_orange");
 
 #namespace zm_tedd_tasks_core;
 
@@ -79,18 +82,39 @@ function __main__()
 {
     // Register FX
     level._effect["tedd_machine_marker"] = CHALLENGE_MACHINE_FX;
+    level._effect["zone_barrier"] = "zombie/fx_ritual_barrier_defend_zod_zmb";
+    level._effect["zone_marker"] = "zombie/fx_glow_eye_orange";
     
     // Initialize level variables
     level.tedd_challenge_active = false;
     level.tedd_active_machine = undefined;
     level.tedd_machine_available = true;
     level.tedd_last_machine_index = -1;
-    
-
+    level.tedd_zone_fx = [];
     
     // Find all machine spawn locations
     level.tedd_spawn_locations = GetEntArray("challenge_machine", "targetname");
     level.tedd_reward_crates = GetEntArray("challenge_machine_reward", "targetname");
+    
+    // Find all zone barrier FX models (script_model in Radiant with targetname "zone_barrier_fx")
+    level.tedd_zone_fx_models = GetEntArray("zone_barrier_fx", "targetname");
+    
+    IPrintLnBold("^6[DEBUG] Found " + level.tedd_zone_fx_models.size + " zone FX models");
+    
+    // Store original positions/angles, then delete models (will respawn when challenge starts)
+    level.tedd_zone_fx_data = [];
+    foreach(fx_model in level.tedd_zone_fx_models)
+    {
+        fx_data = SpawnStruct();
+        fx_data.origin = fx_model.origin;
+        fx_data.angles = fx_model.angles;
+        fx_data.script_int = fx_model.script_int;
+        fx_data.script_noteworthy = fx_model.script_noteworthy;
+        level.tedd_zone_fx_data[level.tedd_zone_fx_data.size] = fx_data;
+        
+        // Delete the model - will respawn dynamically
+        fx_model Delete();
+    }
     
     // Hide all machines and crates initially
     foreach(machine in level.tedd_spawn_locations)

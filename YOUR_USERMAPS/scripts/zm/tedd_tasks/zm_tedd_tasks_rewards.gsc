@@ -11,6 +11,7 @@
 #using scripts\zm\_zm_score;
 #using scripts\zm\_zm_perks;
 #using scripts\zm\_zm_powerups;
+#using scripts\zm\_zm_weapons;
 
 #insert scripts\zm\tedd_tasks\zm_tedd_tasks_config.gsh;
 
@@ -1159,6 +1160,12 @@ function give_reward(reward)
             IPrintLnBold("^3[DEBUG] Spawning powerup: " + reward.powerup_name);
             level thread zm_powerups::specific_powerup_drop(reward.powerup_name, self.origin);
             self IPrintLnBold("^2Powerup spawned!");
+            break;
+        case REWARD_TYPE_WONDER_WEAPON:
+            IPrintLnBold("^3[DEBUG] Giving wonder weapon: " + reward.weapon_name);
+            weapon = GetWeapon(reward.weapon_name);
+            self zm_weapons::weapon_give(weapon, false, false, true);
+            self IPrintLnBold("^2Wonder Weapon Acquired!");
             break;
         default:
             IPrintLnBold("^1[DEBUG] ERROR: Unknown reward type: " + reward.type);

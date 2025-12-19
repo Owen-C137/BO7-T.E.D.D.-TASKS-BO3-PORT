@@ -6,7 +6,7 @@
 
 #define CHALLENGE_COST                      0       // Cost to start a challenge (0 = free)
 #define CHALLENGE_COOLDOWN                  60      // Seconds before can start another challenge
-#define CHALLENGE_REQUIRES_POWER            false    // Require power to be on before machines spawn
+#define CHALLENGE_REQUIRES_POWER            true    // Require power to be on before machines spawn
 
 // MACHINE CONFIGURATION
 // Machine Model & Properties
@@ -29,7 +29,7 @@
 #define CHALLENGE_MAX_ACTIVE                1       // Only 1 machine active at a time
 #define CHALLENGE_RANDOM_LOCATION           true    // Pick random location from available spawns
 #define CHALLENGE_DESPAWN_ON_COMPLETE       true    // Remove machine when challenge completes
-#define CHALLENGE_DESPAWN_ON_FAIL           false   // Keep machine visible after failure
+#define CHALLENGE_DESPAWN_ON_FAIL           true    // Keep machine visible after failure
 #define CHALLENGE_FAIL_COOLDOWN             30      // Seconds before failed machine returns to idle (if DESPAWN_ON_FAIL = false)
 
 // TIER SYSTEM
@@ -69,21 +69,21 @@
 #define CHALLENGE_TYPE_EQUIPMENT_KILLS      "equipment_kills"
 
 // Challenge Enable/Disable Toggles
-#define CHALLENGE_ENABLE_SURVIVE_HORDE      false   // Phase 1: Horde challenge
-#define CHALLENGE_ENABLE_KILLS              false    // Phase 3: Basic kills challenge
-#define CHALLENGE_ENABLE_HEADSHOTS          false   // Phase 3: Headshot challenge
-#define CHALLENGE_ENABLE_MELEE              false   // Phase 3: Melee challenge
+#define CHALLENGE_ENABLE_SURVIVE_HORDE      true   // Phase 1: Horde challenge
+#define CHALLENGE_ENABLE_KILLS              true    // Phase 3: Basic kills challenge
+#define CHALLENGE_ENABLE_HEADSHOTS          true   // Phase 3: Headshot challenge
+#define CHALLENGE_ENABLE_MELEE              true   // Phase 3: Melee challenge
 #define CHALLENGE_ENABLE_KILL_IN_LOCATION   true   // Kill zombies inside zone
 #define CHALLENGE_ENABLE_SURVIVE_IN_LOCATION true  // Survive inside zone
-#define CHALLENGE_ENABLE_KILL_ELEVATION_HIGH false  // Kill from above zombies
-#define CHALLENGE_ENABLE_KILL_ELEVATION_LOW  false  // Kill from below zombies
-#define CHALLENGE_ENABLE_STANDING_STILL      false  // Kill while not moving
-#define CHALLENGE_ENABLE_CROUCHING           false  // Kill while crouched
-#define CHALLENGE_ENABLE_SLIDING             false  // Kill while sliding
-#define CHALLENGE_ENABLE_JUMPING             false  // Kill while airborne
-#define CHALLENGE_ENABLE_TRAP_KILLS          false  // Kill with sawblade trap
-#define CHALLENGE_ENABLE_WEAPON_CLASS        false  // Kill with specific weapon class
-#define CHALLENGE_ENABLE_EQUIPMENT_KILLS     false  // Kill with equipment (grenades, betties, monkeys)
+#define CHALLENGE_ENABLE_KILL_ELEVATION_HIGH true  // Kill from above zombies
+#define CHALLENGE_ENABLE_KILL_ELEVATION_LOW  true  // Kill from below zombies
+#define CHALLENGE_ENABLE_STANDING_STILL      true  // Kill while not moving
+#define CHALLENGE_ENABLE_CROUCHING           true  // Kill while crouched
+#define CHALLENGE_ENABLE_SLIDING             true  // Kill while sliding
+#define CHALLENGE_ENABLE_JUMPING             true  // Kill while airborne
+#define CHALLENGE_ENABLE_TRAP_KILLS          true  // Kill with sawblade trap
+#define CHALLENGE_ENABLE_WEAPON_CLASS        true  // Kill with specific weapon class
+#define CHALLENGE_ENABLE_EQUIPMENT_KILLS     true  // Kill with equipment (grenades, betties, monkeys)
 
 // HORDE CHALLENGE CONFIGURATION
 // Time Limits per Tier (seconds) - How long to survive the horde

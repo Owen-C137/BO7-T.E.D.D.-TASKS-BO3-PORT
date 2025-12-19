@@ -3,6 +3,7 @@
 // Helper functions for tier names, rewards, logging, etc.
 // ====================================================================
 
+#using scripts\shared\exploder_shared;
 #using scripts\zm\_zm_utility;
 
 #insert scripts\zm\tedd_tasks\zm_tedd_tasks_config.gsh;
@@ -451,6 +452,74 @@ function get_weapon_class_id(weapon_class)
             return 7;
         default:
             return 0;
+    }
+}
+
+//*****************************************************************************
+// ZONE BARRIER FX SYSTEM (Delete and Respawn Pattern)
+//*****************************************************************************
+
+function show_zone_barrier_fx(zone_trigger)
+{
+    if(!IsDefined(zone_trigger) || !IsDefined(zone_trigger.script_int))
+    {
+        IPrintLnBold("^1[FX ERROR] Zone trigger missing script_int!");
+        return;
+    }
+    
+    zone_id = zone_trigger.script_int;
+    count = 0;
+    
+    IPrintLnBold("^2[FX] Spawning barriers for zone " + zone_id);
+    
+    // Initialize array
+    if(!IsDefined(level.tedd_active_zone_fx_models))
+        level.tedd_active_zone_fx_models = [];
+    
+    // Spawn models with FX for this zone ID
+    foreach(fx_data in level.tedd_zone_fx_data)
+    {
+        if(IsDefined(fx_data.script_int) && fx_data.script_int == zone_id)
+        {
+            // Spawn the model
+            fx_model = Spawn("script_model", fx_data.origin);
+            fx_model.angles = fx_data.angles;
+            fx_model SetModel("tag_origin");
+            
+            // Attach FX based on script_noteworthy
+            if(IsDefined(fx_data.script_noteworthy) && fx_data.script_noteworthy == "marker")
+            {
+                PlayFXOnTag(level._effect["zone_marker"], fx_model, "tag_origin");
+            }
+            else
+            {
+                PlayFXOnTag(level._effect["zone_barrier"], fx_model, "tag_origin");
+            }
+            
+            // Store for cleanup
+            level.tedd_active_zone_fx_models[level.tedd_active_zone_fx_models.size] = fx_model;
+            count++;
+        }
+    }
+    
+    IPrintLnBold("^2Zone barrier activated! (" + count + " FX spawned)");
+}
+
+function hide_zone_barrier_fx()
+{
+    IPrintLnBold("^6[FX] Deleting zone barriers");
+    
+    // Delete all active FX models
+    if(IsDefined(level.tedd_active_zone_fx_models))
+    {
+        foreach(fx_model in level.tedd_active_zone_fx_models)
+        {
+            if(IsDefined(fx_model))
+            {
+                fx_model Delete();
+            }
+        }
+        level.tedd_active_zone_fx_models = [];
     }
 }
 

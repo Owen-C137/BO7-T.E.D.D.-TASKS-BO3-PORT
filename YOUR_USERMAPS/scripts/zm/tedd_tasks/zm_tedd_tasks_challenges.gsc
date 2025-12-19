@@ -610,6 +610,9 @@ function complete_challenge()
     level notify("tedd_challenge_complete");
     level notify("tedd_horde_challenge_ended");  // Cleanup horde zombies
     
+    // Hide zone barrier FX
+    level thread zm_tedd_tasks_utils::hide_zone_barrier_fx();
+    
     // Get reward amount
     tier = level.tedd_challenge_tier;
     reward_points = zm_tedd_tasks_utils::get_tier_reward(tier);
@@ -733,6 +736,9 @@ function timeout_challenge()
             player IPrintLnBold("^1Challenge Failed! No tiers completed.");
         }
         
+        // Hide zone barrier FX
+        level thread zm_tedd_tasks_utils::hide_zone_barrier_fx();
+        
         // Play fail animation sequence: stop, set failed state, voice with talking, then off_idle
         if(IsDefined(level.tedd_active_machine) && IsDefined(level.tedd_active_machine.model))
         {
@@ -799,6 +805,12 @@ function start_kill_in_location_challenge()
         zm_tedd_tasks_machine::set_machine_state(level.tedd_active_machine.model, "activated");
     }
     
+    // Show pre-placed visual barrier FX for this zone
+    if(IsDefined(level.tedd_active_zone))
+    {
+        level thread zm_tedd_tasks_utils::show_zone_barrier_fx(level.tedd_active_zone);
+    }
+    
     // Update UI for all players
     players = getplayers();
     foreach(player in players)
@@ -851,6 +863,12 @@ function start_survive_in_location_challenge()
     {
         level.tedd_active_machine.model thread zm_tedd_tasks_machine::play_activation_sequence();
         zm_tedd_tasks_machine::set_machine_state(level.tedd_active_machine.model, "activated");
+    }
+    
+    // Show pre-placed visual barrier FX for this zone
+    if(IsDefined(level.tedd_active_zone))
+    {
+        level thread zm_tedd_tasks_utils::show_zone_barrier_fx(level.tedd_active_zone);
     }
     
     // Update UI for all players
